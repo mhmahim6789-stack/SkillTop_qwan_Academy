@@ -1,3 +1,646 @@
-# SkillTop_Academy
-Tech everything perfactly 
-https://mhmahim6789-stack.github.io/SkillTop_Academy/
+```jsx
+import React, { useState, useEffect } from 'react';
+
+const App = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('all');
+  const [userProgress, setUserProgress] = useState(0);
+
+  // Mock data
+  const featuredCourses = [
+    {
+      id: 1,
+      title: "Web Development Bootcamp",
+      instructor: "John Doe",
+      duration: "8 weeks",
+      level: "Beginner",
+      price: "৳2,500",
+      image: "https://placehold.co/400x250/4f46e5/ffffff?text=Web+Dev",
+      rating: 4.8,
+      students: 1250
+    },
+    {
+      id: 2,
+      title: "Digital Marketing Mastery",
+      instructor: "Sarah Khan",
+      duration: "6 weeks",
+      level: "Intermediate",
+      price: "৳1,800",
+      image: "https://placehold.co/400x250/059669/ffffff?text=Digital+Marketing",
+      rating: 4.6,
+      students: 890
+    },
+    {
+      id: 3,
+      title: "Graphic Design Fundamentals",
+      instructor: "Rahim Ahmed",
+      duration: "4 weeks",
+      level: "Beginner",
+      price: "৳1,200",
+      image: "https://placehold.co/400x250/dc2626/ffffff?text=Graphic+Design",
+      rating: 4.9,
+      students: 1560
+    }
+  ];
+
+  const testimonials = [
+    {
+      name: "Fatima Rahman",
+      role: "Student",
+      content: "SkillTop Academy transformed my career! I went from zero coding knowledge to landing my first web developer job in just 3 months.",
+      avatar: "https://placehold.co/80x80/f59e0b/ffffff?text=F"
+    },
+    {
+      name: "Md. Hasan",
+      role: "Freelancer",
+      content: "The practical approach to learning helped me immediately apply my skills to real client projects. Highly recommended!",
+      avatar: "https://placehold.co/80x80/8b5cf6/ffffff?text=H"
+    },
+    {
+      name: "Ayesha Khan",
+      role: "Entrepreneur",
+      content: "The digital marketing course gave me the tools to grow my business online. Worth every taka invested!",
+      avatar: "https://placehold.co/80x80/06b6d4/ffffff?text=A"
+    }
+  ];
+
+  const howItWorks = [
+    { step: 1, title: "Browse Courses", description: "Explore our wide range of courses tailored to your needs and skill level." },
+    { step: 2, title: "Enroll & Pay", description: "Securely pay via bKash, Nagad, PayPal, or Stripe to enroll in your chosen course." },
+    { step: 3, title: "Learn Anywhere", description: "Access course materials anytime, anywhere on your mobile or desktop device." },
+    { step: 4, title: "Get Certified", description: "Complete the course and receive your official certificate to showcase your achievement." }
+  ];
+
+  const categories = [
+    { id: 'all', name: 'All Courses' },
+    { id: 'web-dev', name: 'Web Development' },
+    { id: 'design', name: 'Design' },
+    { id: 'marketing', name: 'Marketing' },
+    { id: 'business', name: 'Business' }
+  ];
+
+  const courses = [
+    ...featuredCourses,
+    {
+      id: 4,
+      title: "Mobile App Development",
+      instructor: "Tasnim Islam",
+      duration: "10 weeks",
+      level: "Advanced",
+      price: "৳3,200",
+      image: "https://placehold.co/400x250/7c3aed/ffffff?text=Mobile+Apps",
+      rating: 4.7,
+      students: 670
+    },
+    {
+      id: 5,
+      title: "Data Science Fundamentals",
+      instructor: "Dr. Rahman",
+      duration: "12 weeks",
+      level: "Intermediate",
+      price: "৳2,800",
+      image: "https://placehold.co/400x250/ea580c/ffffff?text=Data+Science",
+      rating: 4.5,
+      students: 420
+    },
+    {
+      id: 6,
+      title: "Video Editing Pro",
+      instructor: "Karim Hossain",
+      duration: "6 weeks",
+      level: "Beginner",
+      price: "৳1,500",
+      image: "https://placehold.co/400x250/0891b2/ffffff?text=Video+Editing",
+      rating: 4.8,
+      students: 980
+    }
+  ];
+
+  const filteredCourses = activeTab === 'all' 
+    ? courses 
+    : courses.filter(course => course.title.toLowerCase().includes(activeTab.replace('-', ' ')));
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const Navbar = () => (
+    <nav className="bg-white shadow-sm sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          <div className="flex items-center">
+            <div className="flex-shrink-0">
+              <h1 className="text-2xl font-bold text-indigo-600">SkillTop Academy</h1>
+            </div>
+          </div>
+          <div className="hidden md:block">
+            <div className="ml-10 flex items-baseline space-x-4">
+              <a href="#home" className="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Home</a>
+              <a href="#courses" className="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Courses</a>
+              <a href="#instructors" className="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Instructors</a>
+              <a href="#blog" className="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Blog</a>
+              <a href="#contact" className="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+            </div>
+          </div>
+          <div className="hidden md:block">
+            <div className="ml-4 flex items-center md:ml-6">
+              <button className="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition duration-300">
+                Login
+              </button>
+            </div>
+          </div>
+          <div className="md:hidden">
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="text-gray-700 hover:text-indigo-600 focus:outline-none"
+            >
+              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-white border-t">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <a href="#home" className="text-gray-700 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">Home</a>
+            <a href="#courses" className="text-gray-700 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">Courses</a>
+            <a href="#instructors" className="text-gray-700 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">Instructors</a>
+            <a href="#blog" className="text-gray-700 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">Blog</a>
+            <a href="#contact" className="text-gray-700 hover:text-indigo-600 block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+            <button className="w-full text-left bg-indigo-600 text-white px-3 py-2 rounded-md text-base font-medium hover:bg-indigo-700 transition duration-300">
+              Login
+            </button>
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+
+  const Hero = () => (
+    <div className="relative bg-gradient-to-r from-indigo-600 to-purple-600 overflow-hidden">
+      <div className="max-w-7xl mx-auto">
+        <div className="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+          <svg
+            className="hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-white transform translate-x-1/2"
+            fill="currentColor"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <polygon points="50,0 100,0 50,100 0,100" />
+          </svg>
+
+          <div className="pt-10 sm:pt-16 lg:pt-8 lg:pb-14 lg:overflow-hidden">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+              <div className="lg:grid lg:grid-cols-2 lg:gap-8">
+                <div className="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 sm:text-center lg:px-0 lg:text-left lg:flex lg:items-center">
+                  <div className="lg:py-24">
+                    <h1 className="mt-4 text-4xl tracking-tight font-extrabold text-white sm:mt-5 sm:text-5xl lg:mt-6 xl:text-6xl">
+                      <span className="block">Learn In-Demand Skills</span>
+                      <span className="block text-indigo-200">From Industry Experts</span>
+                    </h1>
+                    <p className="mt-3 text-base text-indigo-100 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
+                      Join thousands of students who have transformed their careers with our practical, project-based courses.
+                    </p>
+                    <div className="mt-10 sm:mt-12">
+                      <div className="sm:max-w-lg">
+                        <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
+                          <div className="rounded-md shadow">
+                            <a
+                              href="#courses"
+                              className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-indigo-50 md:py-4 md:text-lg md:px-10 transition duration-300"
+                            >
+                              Browse Courses
+                            </a>
+                          </div>
+                          <div className="mt-3 sm:mt-0 sm:ml-3">
+                            <a
+                              href="#how-it-works"
+                              className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-700 bg-opacity-60 hover:bg-opacity-70 md:py-4 md:text-lg md:px-10 transition duration-300"
+                            >
+                              How It Works
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-12 -mb-16 sm:-mb-48 lg:m-0 lg:relative">
+                  <div className="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 lg:max-w-none lg:px-0">
+                    <img
+                      className="w-full lg:absolute lg:inset-y-0 lg:left-0 lg:h-full lg:w-auto lg:max-w-none"
+                      src="https://placehold.co/600x400/white/indigo?text=Learning+Platform"
+                      alt="Learning Platform"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const FeaturedCourses = () => (
+    <section id="courses" className="py-16 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">Featured Courses</h2>
+          <p className="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+            Handpicked courses designed to help you succeed in today's digital world
+          </p>
+        </div>
+        <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {featuredCourses.map((course) => (
+            <div key={course.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300 transform hover:-translate-y-1">
+              <img src={course.image} alt={course.title} className="w-full h-48 object-cover" />
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-indigo-600 bg-indigo-100 px-2 py-1 rounded">{course.level}</span>
+                  <span className="text-sm text-gray-500">{course.duration}</span>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{course.title}</h3>
+                <p className="text-gray-600 mb-3">Instructor: {course.instructor}</p>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center">
+                    <span className="text-yellow-400 mr-1">★</span>
+                    <span className="text-gray-600">{course.rating}</span>
+                    <span className="text-gray-400 ml-1">({course.students} students)</span>
+                  </div>
+                  <span className="text-xl font-bold text-indigo-600">{course.price}</span>
+                </div>
+                <button className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-300">
+                  Enroll Now
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-10 text-center">
+          <a href="#all-courses" className="text-indigo-600 hover:text-indigo-700 font-medium">
+            View All Courses →
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+
+  const Testimonials = () => (
+    <section className="py-16 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">What Our Students Say</h2>
+          <p className="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+            Real success stories from our community of learners
+          </p>
+        </div>
+        <div className="mt-12">
+          <div className="relative">
+            <div className="overflow-hidden">
+              <div 
+                className="flex transition-transform duration-500 ease-in-out"
+                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+              >
+                {testimonials.map((testimonial, index) => (
+                  <div key={index} className="w-full flex-shrink-0 px-4">
+                    <div className="bg-gray-50 rounded-lg p-8 md:p-12 mx-auto max-w-3xl">
+                      <div className="flex items-center mb-6">
+                        <img src={testimonial.avatar} alt={testimonial.name} className="w-16 h-16 rounded-full mr-4" />
+                        <div>
+                          <h4 className="text-xl font-bold text-gray-900">{testimonial.name}</h4>
+                          <p className="text-gray-600">{testimonial.role}</p>
+                        </div>
+                      </div>
+                      <blockquote className="text-lg text-gray-700 italic">
+                        "{testimonial.content}"
+                      </blockquote>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="flex justify-center mt-8 space-x-2">
+              {testimonials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentSlide(index)}
+                  className={`w-3 h-3 rounded-full transition duration-300 ${
+                    index === currentSlide ? 'bg-indigo-600' : 'bg-gray-300'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+
+  const HowItWorks = () => (
+    <section id="how-it-works" className="py-16 bg-indigo-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">How It Works</h2>
+          <p className="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+            Get started with SkillTop Academy in just 4 simple steps
+          </p>
+        </div>
+        <div className="mt-16">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {howItWorks.map((step, index) => (
+              <div key={step.step} className="text-center">
+                <div className="flex items-center justify-center w-16 h-16 mx-auto bg-indigo-600 rounded-full text-white text-2xl font-bold">
+                  {step.step}
+                </div>
+                <h3 className="mt-6 text-xl font-bold text-gray-900">{step.title}</h3>
+                <p className="mt-2 text-gray-600">{step.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="mt-16 text-center">
+          <a
+            href="#courses"
+            className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300"
+          >
+            Start Learning Today
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+
+  const AllCourses = () => (
+    <section id="all-courses" className="py-16 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">All Courses</h2>
+          <p className="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+            Explore our complete catalog of courses across various categories
+          </p>
+        </div>
+        
+        {/* Category Tabs */}
+        <div className="flex flex-wrap justify-center mb-8">
+          {categories.map((category) => (
+            <button
+              key={category.id}
+              onClick={() => setActiveTab(category.id)}
+              className={`px-4 py-2 mx-2 mb-2 rounded-md text-sm font-medium transition duration-300 ${
+                activeTab === category.id
+                  ? 'bg-indigo-600 text-white'
+                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+              }`}
+            >
+              {category.name}
+            </button>
+          ))}
+        </div>
+
+        {/* Course Grid */}
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {filteredCourses.map((course) => (
+            <div key={course.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300 transform hover:-translate-y-1">
+              <img src={course.image} alt={course.title} className="w-full h-48 object-cover" />
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-indigo-600 bg-indigo-100 px-2 py-1 rounded">{course.level}</span>
+                  <span className="text-sm text-gray-500">{course.duration}</span>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{course.title}</h3>
+                <p className="text-gray-600 mb-3">Instructor: {course.instructor}</p>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center">
+                    <span className="text-yellow-400 mr-1">★</span>
+                    <span className="text-gray-600">{course.rating}</span>
+                    <span className="text-gray-400 ml-1">({course.students} students)</span>
+                  </div>
+                  <span className="text-xl font-bold text-indigo-600">{course.price}</span>
+                </div>
+                <button className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-300">
+                  Enroll Now
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+
+  const StudentDashboard = () => (
+    <section className="py-16 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">Student Dashboard</h2>
+          <p className="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+            Track your progress, access your courses, and download certificates
+          </p>
+        </div>
+        
+        <div className="bg-white rounded-lg shadow-md p-6 md:p-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">My Courses</h3>
+              <p className="text-gray-600">Access all your enrolled courses anytime, anywhere</p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Progress Tracking</h3>
+              <p className="text-gray-600">Monitor your learning progress and completion rates</p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Certificates</h3>
+              <p className="text-gray-600">Download official certificates upon course completion</p>
+            </div>
+          </div>
+          
+          <div className="mt-12 bg-gray-100 rounded-lg p-6">
+            <h4 className="text-lg font-bold text-gray-900 mb-4">Current Progress</h4>
+            <div className="space-y-4">
+              <div>
+                <div className="flex justify-between mb-1">
+                  <span className="text-gray-700">Web Development Bootcamp</span>
+                  <span className="text-indigo-600 font-medium">{userProgress}%</span>
+                </div>
+                <div className="w-full bg-gray-300 rounded-full h-2.5">
+                  <div className="bg-indigo-600 h-2.5 rounded-full" style={{ width: `${userProgress}%` }}></div>
+                </div>
+              </div>
+            </div>
+            <button 
+              className="mt-6 bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition duration-300"
+              onClick={() => setUserProgress(prev => Math.min(prev + 10, 100))}
+            >
+              Continue Learning
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+
+  const PaymentSection = () => (
+    <section className="py-16 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">Secure Payment Options</h2>
+          <p className="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+            Pay with your preferred method - local or international
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="bg-gray-50 rounded-lg p-6 text-center">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-2xl font-bold text-green-600">🇧🇩</span>
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">bKash</h3>
+            <p className="text-gray-600">Pay securely with Bangladesh's most popular mobile financial service</p>
+          </div>
+          
+          <div className="bg-gray-50 rounded-lg p-6 text-center">
+            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-2xl font-bold text-blue-600">🇧🇩</span>
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Nagad</h3>
+            <p className="text-gray-600">Convenient mobile payments with Nagad's secure platform</p>
+          </div>
+          
+          <div className="bg-gray-50 rounded-lg p-6 text-center">
+            <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-2xl font-bold text-white">P</span>
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">PayPal</h3>
+            <p className="text-gray-600">International payments made easy with PayPal's trusted platform</p>
+          </div>
+          
+          <div className="bg-gray-50 rounded-lg p-6 text-center">
+            <div className="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-2xl font-bold text-white">S</span>
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Stripe</h3>
+            <p className="text-gray-600">Secure credit card payments through Stripe's global payment system</p>
+          </div>
+        </div>
+        
+        <div className="mt-12 bg-indigo-50 rounded-lg p-8 text-center">
+          <h3 className="text-2xl font-bold text-gray-900 mb-4">Special Offer: Use Code "LEARN20" for 20% Off!</h3>
+          <p className="text-gray-600 mb-6">Limited time offer - apply at checkout</p>
+          <button className="bg-indigo-600 text-white py-3 px-6 rounded-md hover:bg-indigo-700 transition duration-300 text-lg font-medium">
+            Start Learning Now
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+
+  const Footer = () => (
+    <footer className="bg-gray-900 text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div>
+            <h3 className="text-xl font-bold mb-4">SkillTop Academy</h3>
+            <p className="text-gray-400 mb-4">Empowering learners with practical skills for the digital age.</p>
+            <div className="flex space-x-4">
+              <a href="#" className="text-gray-400 hover:text-white transition duration-300">
+                <span className="sr-only">Facebook</span>
+                <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                </svg>
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition duration-300">
+                <span className="sr-only">WhatsApp</span>
+                <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+                </svg>
+              </a>
+              <a href="#" className="text-gray-400 hover:text-white transition duration-300">
+                <span className="sr-only">Telegram</span>
+                <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          
+          <div>
+            <h3 className="text-xl font-bold mb-4">Quick Links</h3>
+            <ul className="space-y-2">
+              <li><a href="#home" className="text-gray-400 hover:text-white transition duration-300">Home</a></li>
+              <li><a href="#courses" className="text-gray-400 hover:text-white transition duration-300">Courses</a></li>
+              <li><a href="#instructors" className="text-gray-400 hover:text-white transition duration-300">Instructors</a></li>
+              <li><a href="#blog" className="text-gray-400 hover:text-white transition duration-300">Blog</a></li>
+              <li><a href="#contact" className="text-gray-400 hover:text-white transition duration-300">Contact</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h3 className="text-xl font-bold mb-4">Support</h3>
+            <ul className="space-y-2">
+              <li><a href="#" className="text-gray-400 hover:text-white transition duration-300">FAQ</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition duration-300">Help Center</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition duration-300">Terms & Conditions</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition duration-300">Privacy Policy</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition duration-300">Refund Policy</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h3 className="text-xl font-bold mb-4">Contact Us</h3>
+            <address className="not-italic text-gray-400">
+              <p>Dhaka, Bangladesh</p>
+              <p className="mt-2">Email: info@skilltopacademy.com</p>
+              <p className="mt-2">Phone: +880 1XXX XXX XXX</p>
+            </address>
+          </div>
+        </div>
+        
+        <div className="border-t border-gray-800 mt-8 pt-8 text-center">
+          <p className="text-gray-400">&copy; 2024 SkillTop Academy. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  );
+
+  return (
+    <div className="min-h-screen bg-white">
+      <Navbar />
+      <Hero />
+      <FeaturedCourses />
+      <Testimonials />
+      <HowItWorks />
+      <AllCourses />
+      <StudentDashboard />
+      <PaymentSection />
+      <Footer />
+    </div>
+  );
+};
+
+export default App;
+```
